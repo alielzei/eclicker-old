@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1077765586683",
+    "firebase_url": "https://eclicker-1.firebaseio.com",
+    "project_id": "eclicker-1",
+    "storage_bucket": "eclicker-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077765586683:android:55dd029b86d27679783a5e",
+        "android_client_info": {
+          "package_name": "com.eclicker.eclicker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077765586683-09mdd317ob0gal6b86g5ade4h8nip3ie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApZrekOFj8ufCCT0V5SiBjk5_WC0rVju4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077765586683-09mdd317ob0gal6b86g5ade4h8nip3ie.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1077765586683-7f7j2oqp0po38bqdej13ju7dcnf7ab87.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eclicker.eclicker",
+                "app_store_id": "962194608"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

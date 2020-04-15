@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1077765586683-7f7j2oqp0po38bqdej13ju7dcnf7ab87.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1077765586683-7f7j2oqp0po38bqdej13ju7dcnf7ab87</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBjW62c0ftMQgSLstk6xj32vQ4w7Rz2LRw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1077765586683</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.eclicker.eclicker</string>
+	<key>PROJECT_ID</key>
+	<string>eclicker-1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>eclicker-1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1077765586683:ios:a40e7ef815cbe20a783a5e</string>
+	<key>DATABASE_URL</key>
+	<string>https://eclicker-1.firebaseio.com</string>
+</dict>
+</plist>
