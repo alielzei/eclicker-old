@@ -1,5 +1,5 @@
 import 'package:eclicker/services/auth_service.dart';
-import 'package:eclicker/services/rooms_service.dart';
+import 'package:eclicker/services/home_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ class AuthWidgetBuilder extends StatelessWidget {
         : MultiProvider(
           providers: [
             ChangeNotifierProvider(
-              create: (_) => RoomsService(uid: user.uid)
+              create: (_) => HomeService(uid: user.uid)
             ),
             Provider<AuthService>(
               create: (_) => AuthService()

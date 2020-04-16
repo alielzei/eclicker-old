@@ -20,8 +20,8 @@ class Room {
   }
 }
 
-class RoomsService extends ChangeNotifier{
-  RoomsService({@required this.uid}) : assert(uid != null);
+class HomeService extends ChangeNotifier{
+  HomeService({@required this.uid}) : assert(uid != null);
   final String uid; 
   
   List<Room> ownedRooms;
@@ -38,7 +38,7 @@ class RoomsService extends ChangeNotifier{
     final response = await http.get(uri);
     
     if(response.statusCode != 200)
-      throw Exception('${response.body}');
+      throw Exception('HTTP ERROR: ${response.body}');
 
     var roomsJson = json.decode(response.body);
     // check if its a list
@@ -50,6 +50,7 @@ class RoomsService extends ChangeNotifier{
   }
 
   Future<void> getOwnedRooms() async {
+    // handle error here
     ownedRooms = await getRooms(functionName: 'getOwnedRooms');
     notifyListeners();
   }
