@@ -37,8 +37,15 @@ class SignInPage extends StatelessWidget {
           RaisedButton(
             child: Text('Respondent (ali)'),
             onPressed: () => _signIn(context,
-              email: 'ali@eclicker.com',
-              password: '123456'
+                email: 'ali@eclicker.com',
+                password: '123456'
+            ),
+          ),
+          RaisedButton(
+            child: Text('Hussein'),
+            onPressed: () => _signIn(context,
+                email: 'hussein@eclicker.com',
+                password: '123456'
             ),
           ),
         ],
