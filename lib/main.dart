@@ -15,8 +15,17 @@ class Eclicker extends StatelessWidget {
         builder: (context, userSnapshot){
           return MaterialApp(
             theme: ThemeData(
-              primarySwatch: Colors.blue,
-              scaffoldBackgroundColor: Colors.grey[100]
+              inputDecorationTheme: InputDecorationTheme(
+                border: InputBorder.none,
+                filled: true,
+                fillColor: Colors.grey[200],
+              ),
+              buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
+              )
             ),
             home: Scaffold(
               body: Center(

@@ -20,7 +20,7 @@ class AuthWidgetBuilder extends StatelessWidget {
         : MultiProvider(
           providers: [
             ChangeNotifierProvider(
-              create: (_) => HomeService(uid: user.uid)
+              create: (_) => HomeService(user: user)
             ),
             Provider<AuthService>(
               create: (_) => AuthService()
