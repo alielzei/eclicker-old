@@ -23,6 +23,23 @@ class Session {
   }
 }
 
+@immutable
+class HistoryElement {
+  const HistoryElement({
+    @required this.id,
+    @required this.title
+  });
+  final String id;
+  final String title;
+
+  factory HistoryElement.fromJson(Map<String, dynamic> json){
+    return HistoryElement(
+      id: json['id'],
+      title: json['title']
+    );
+  }
+}
+
 class RoomService extends ChangeNotifier{
   RoomService({
     @required this.user,
@@ -35,7 +52,9 @@ class RoomService extends ChangeNotifier{
   bool _mounted = true;
 
   List<Session> sessions;
+  List<Session> activeSessions;
   List<String> participants;
+  List<HistoryElement> history;
 
   @override
   void dispose(){
@@ -61,6 +80,25 @@ class RoomService extends ChangeNotifier{
 
     if(_mounted) notifyListeners();
   }
+
+  Future<void> getActiveSession() async {
+    Uri uri = Uri.https(
+      'us-central1-eclicker-1.cloudfunctions.net',
+      '/getActiveSessions', {
+      'room': room.id
+    });
+    final response = await http.get(uri);
+
+    if(response.statusCode != 200)
+      throw Exception('${response.body}');
+
+    var sessionsJson = json.decode(response.body);
+    activeSessions = sessionsJson.map<Session>(
+      (roomJson) => Session.fromJson(roomJson)
+    ).toList();
+
+    if(_mounted) notifyListeners();
+  }
   
   Future<void> getParticipants() async {
     Uri uri = Uri.https(
@@ -75,6 +113,25 @@ class RoomService extends ChangeNotifier{
 
     var participantsJson = json.decode(response.body);
     participants = List<String>.from(participantsJson);
+
+    if(_mounted) notifyListeners();
+  }
+
+  Future<void> getHistory() async {
+    Uri uri = Uri.https(
+      'us-central1-eclicker-1.cloudfunctions.net',
+      '/getHistory', {
+      'room': room.id
+    });
+    final response = await http.get(uri);
+
+    if(response.statusCode != 200)
+      throw Exception('${response.body}');
+
+    var historyJson = json.decode(response.body);
+
+    history = historyJson.map<HistoryElement>((h) 
+      => HistoryElement.fromJson(h)).toList();
 
     if(_mounted) notifyListeners();
   }

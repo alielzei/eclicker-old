@@ -1,6 +1,9 @@
 import 'package:eclicker/app/forms/create_session_form.dart';
+import 'package:eclicker/app/room/results_history_page.dart';
 import 'package:eclicker/app/session/hosted_session_page.dart';
+import 'package:eclicker/services/session_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 
@@ -12,6 +15,26 @@ import 'package:eclicker/services/room_service.dart';
 // -get token
 
 class HostedRoomPage extends StatelessWidget {
+
+  void _goToSession(BuildContext context, Session session){
+    Navigator.push(context, MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (_) => ChangeNotifierProvider<SessionService>(
+        create: (_) => SessionService(sessionId: session.id),
+        child: HostedSessionPage(),
+      )
+    ));
+  }
+
+  void _goToHistory(BuildContext context, HistoryElement session){
+    Navigator.push(context, MaterialPageRoute(
+      fullscreenDialog: true,
+      builder: (_) => ChangeNotifierProvider(
+        create: (_) => SessionService(sessionId: session.id),
+        child: OldResultsPage()
+      )
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +57,7 @@ class HostedRoomPage extends StatelessWidget {
           children: <Widget>[
             _buildSessions(context),
             _buildParticipants(context),
-            Text('history')
+            _buildHistory(context),
             // rooms have history
           ],
         ),
@@ -59,10 +82,7 @@ class HostedRoomPage extends StatelessWidget {
         // leading: Icon(CupertinoIcons.group_solid, size: 30),
         title: Text(session.title),
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (_) => HostedSessionPage()
-          ));
+          _goToSession(context, session);
         },
       ),
       shape: RoundedRectangleBorder(
@@ -70,12 +90,27 @@ class HostedRoomPage extends StatelessWidget {
       ),
     );
   }
-
+  
   Widget _buildParticipantTile(BuildContext context, String participant){
     return Card(
       child: ListTile(
         // leading: Icon(CupertinoIcons.group_solid, size: 30),
         title: Text(participant),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10)
+      ),
+    );
+  }
+  
+  Widget _buildHistoryTile(BuildContext context, HistoryElement session){
+    return Card(
+      child: ListTile(
+        // leading: Icon(CupertinoIcons.group_solid, size: 30),
+        title: Text(session.title),
+        onTap: (){
+          _goToHistory(context, session);
+        },
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10)
@@ -118,12 +153,49 @@ class HostedRoomPage extends StatelessWidget {
 
         return RefreshIndicator(
             child: ListView(
-              children: roomService.sessions.map(
+              children: [
+                ...roomService.sessions.map(
                   (session) => _buildSessionTile(context, session)).toList(),
+                  _copySessionToken(context)
+                ],
             ),
             onRefresh: () => roomService.getSessions(),
         );
       },
     );
   }
+
+  Widget _buildHistory(BuildContext context){
+    return Consumer<RoomService>(
+      builder: (context, roomService, child){
+        if(roomService.history == null){
+          // this may throw error
+          roomService.getHistory();
+          return Center(
+            child: CircularProgressIndicator()
+          );
+        }
+
+        return RefreshIndicator(
+            child: ListView(
+              children: roomService.history.map(
+                (session) => _buildHistoryTile(context, session)).toList(),
+            ),
+            onRefresh: () => roomService.getHistory(),
+        );
+      },
+    );
+  }
+
+  Widget _copySessionToken(BuildContext context){
+    final roomService = Provider.of<RoomService>(context, listen: false);
+
+    return RaisedButton(
+      child: Text('Copy Room Token'),
+      onPressed: (){
+        Clipboard.setData(ClipboardData(text: roomService.room.id));
+      },
+    );
+  }
+
 }

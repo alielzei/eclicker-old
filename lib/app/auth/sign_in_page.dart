@@ -28,14 +28,14 @@ class SignInPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           RaisedButton(
-            child: Text('Host (bdeir)'),
+            child: Text('Host'),
             onPressed: () => _signIn(context,
               email: 'bdeir@eclicker.com',
               password: '123456'
             ),
           ),
           RaisedButton(
-            child: Text('Respondent (ali)'),
+            child: Text('Respondent'),
             onPressed: () => _signIn(context,
               email: 'ali@eclicker.com',
               password: '123456'
