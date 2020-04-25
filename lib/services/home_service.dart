@@ -110,9 +110,7 @@ class HomeService extends ChangeNotifier{
     return Room.fromJson(json.decode(response.body));
   }
 
-  Future<String> getUserName() async {
-    print(user.uid);
-
+  Future<void> getUserName() async {
     Uri uri = Uri.https(
       'us-central1-eclicker-1.cloudfunctions.net',
       '/getUser', {

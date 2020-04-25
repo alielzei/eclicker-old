@@ -175,7 +175,7 @@ class RoomService extends ChangeNotifier{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
-        'session': historyElement.id,
+        'history': historyElement.id,
       })
     );
 
@@ -200,4 +200,5 @@ class RoomService extends ChangeNotifier{
     if(response.statusCode != 200)
       throw Exception('HTTP ERROR: ${response.body}');
   }
+
 }

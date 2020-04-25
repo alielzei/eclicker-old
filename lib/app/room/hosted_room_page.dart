@@ -120,6 +120,8 @@ class _HostedRoomPageState extends State<HostedRoomPage> {
   }
 
   Widget _buildHistoryTile(BuildContext context, HistoryElement session){
+    final roomService = Provider.of<RoomService>(context, listen: false);
+
     return Card(
       child: ListTile(
         // leading: Icon(CupertinoIcons.group_solid, size: 30),
@@ -127,6 +129,18 @@ class _HostedRoomPageState extends State<HostedRoomPage> {
         subtitle: Text('${session.time}'),
         trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){
           print('deleting ${session.id}');
+          _setLoading(true);
+          roomService.deleteHistory(historyElement: session)
+          .then((v){
+            roomService.getHistory()
+            .then((v) {
+              _setLoading(false);
+            });
+          })
+          .catchError((e){
+            print('error deleting history element $e');
+            _setLoading(false);
+          });
         }),
         onTap: (){
           _goToHistory(context, session);
