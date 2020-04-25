@@ -48,9 +48,30 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
           RaisedButton(
-            child: Text('Respondent'),
+            child: Text('Ali'),
             onPressed: () => _signIn(context,
               email: 'ali@eclicker.com',
+              password: '123456'
+            ),
+          ),
+          RaisedButton(
+            child: Text('Nariman'),
+            onPressed: () => _signIn(context,
+              email: 'nariman@eclicker.com',
+              password: '123456'
+            ),
+          ),
+          RaisedButton(
+            child: Text('Nadine'),
+            onPressed: () => _signIn(context,
+              email: 'nadine@eclicker.com',
+              password: '123456'
+            ),
+          ),
+          RaisedButton(
+            child: Text('Hussein'),
+            onPressed: () => _signIn(context,
+              email: 'hussein@eclicker.com',
               password: '123456'
             ),
           ),
