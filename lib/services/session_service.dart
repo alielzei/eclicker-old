@@ -37,10 +37,13 @@ class SessionResults{
   final List<int> results;
 
   factory SessionResults.fromJSON(json){
+    List<int> results = json['results'] != null
+    ? List<int>.from(json['results'].values) : null;
+
     return SessionResults(
       title: json['title'],
       options: List<String>.from(json['options']),
-      results: List<int>.from(json['results'].values)
+      results: results
     );
   }
 }
@@ -105,11 +108,7 @@ class SessionService extends ChangeNotifier{
     .collection('sessions')
     .document(sessionId)
     .snapshots().map((snapshot){
-      print(snapshot.data);
-      var results = snapshot.data['results'];
-      return results == null
-      ? null
-      : SessionResults.fromJSON(snapshot.data);
+      return SessionResults.fromJSON(snapshot.data);
     });
   }
 
@@ -128,11 +127,11 @@ class SessionService extends ChangeNotifier{
         'session': sessionId,
       })
     );
-
+    setLoading(false);
+    print(response.body);
     if(response.statusCode != 200)
       throw Exception('HTTP ERROR: ${response.body}');
-
-    setLoading(false);
+    
   }
 
   Future<void> deactivateSession() async {
@@ -150,11 +149,12 @@ class SessionService extends ChangeNotifier{
         'session': sessionId,
       })
     );
-
-    if(response.statusCode != 200)
-      throw Exception('HTTP ERROR: ${response.body}');
-    
     setLoading(false);
+    print(response.body);
+    
+    if(response.statusCode != 200)
+      throw Exception('HTTP ERROR: ${response.statusCode}, ${response.body}');
+  
   }
 
   Future<SessionResults> getResults() async {
@@ -171,4 +171,25 @@ class SessionService extends ChangeNotifier{
     return SessionResults.fromJSON(json.decode(response.body));
   } 
 
+  Future<void> deleteSession() async {
+    setLoading(true);
+    Uri uri = Uri.https(
+      'us-central1-eclicker-1.cloudfunctions.net',
+      '/deleteSession'
+    );
+
+    final response = await http.post(uri,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'session': sessionId,
+      })
+    );
+
+    if(response.statusCode != 200){
+      setLoading(false);
+      throw Exception('HTTP ERROR: ${response.body}');
+    }
+  }
 }

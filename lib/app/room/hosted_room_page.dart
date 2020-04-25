@@ -1,5 +1,5 @@
 import 'package:eclicker/app/forms/create_session_form.dart';
-import 'package:eclicker/app/room/results_history_page.dart';
+import 'package:eclicker/app/session/results_history_page.dart';
 import 'package:eclicker/app/session/hosted_session_page.dart';
 import 'package:eclicker/services/session_service.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:eclicker/services/room_service.dart';
-
-// -Add loading screen when sining in
-// -add there are no rooms/sessions/particiants
-// -shil l submit bala options
-// -get token
 
 class HostedRoomPage extends StatelessWidget {
 
@@ -107,7 +102,11 @@ class HostedRoomPage extends StatelessWidget {
     return Card(
       child: ListTile(
         // leading: Icon(CupertinoIcons.group_solid, size: 30),
-        title: Text(session.title),
+        title: Text('${session.title}'),
+        subtitle: Text('${session.time}'),
+        trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){
+          print('deleting ${session.id}');
+        }),
         onTap: (){
           _goToHistory(context, session);
         },
@@ -131,8 +130,10 @@ class HostedRoomPage extends StatelessWidget {
 
         return RefreshIndicator(
             child: ListView(
-              children: roomService.participants.map(
-                  (participant) => _buildParticipantTile(context, participant)).toList(),
+              children: roomService.participants.length > 0 
+              ? roomService.participants.map(
+                  (participant) => _buildParticipantTile(context, participant)).toList()
+              : _emptyAlert(context, 'No participants have joined your room yet')
             ),
             onRefresh: () => roomService.getParticipants(),
         );
@@ -153,11 +154,13 @@ class HostedRoomPage extends StatelessWidget {
 
         return RefreshIndicator(
             child: ListView(
-              children: [
-                ...roomService.sessions.map(
-                  (session) => _buildSessionTile(context, session)).toList(),
-                  _copySessionToken(context)
-                ],
+              children: 
+                roomService.sessions.length > 0 
+                ? [
+                  ...roomService.sessions.map(
+                    (session) => _buildSessionTile(context, session)).toList(),
+                  CopySessionToken()
+                ] : _emptyAlert(context, 'You do not have any sessions yet')
             ),
             onRefresh: () => roomService.getSessions(),
         );
@@ -177,9 +180,12 @@ class HostedRoomPage extends StatelessWidget {
         }
 
         return RefreshIndicator(
-            child: ListView(
-              children: roomService.history.map(
-                (session) => _buildHistoryTile(context, session)).toList(),
+            child: 
+             ListView(
+              children: roomService.history.length > 0 
+              ? roomService.history.map(
+                (session) => _buildHistoryTile(context, session)).toList()
+              : _emptyAlert(context, 'No history available')
             ),
             onRefresh: () => roomService.getHistory(),
         );
@@ -187,15 +193,32 @@ class HostedRoomPage extends StatelessWidget {
     );
   }
 
-  Widget _copySessionToken(BuildContext context){
+  List<Widget> _emptyAlert(BuildContext context, String text){
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Center(child: Text(text)),
+      )
+    ];
+  }
+}
+
+class CopySessionToken extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     final roomService = Provider.of<RoomService>(context, listen: false);
 
-    return RaisedButton(
-      child: Text('Copy Room Token'),
-      onPressed: (){
-        Clipboard.setData(ClipboardData(text: roomService.room.id));
-      },
+    return Center(
+      child: RaisedButton(
+        child: Text('Copy Room Token'),
+        onPressed: (){
+          Clipboard.setData(ClipboardData(text: roomService.room.id));
+          Scaffold.of(context)
+            .showSnackBar(SnackBar(
+              content: Text('Room Token ${roomService.room.id} copied to clipboard')
+            ));
+        },
+      ),
     );
   }
-
 }

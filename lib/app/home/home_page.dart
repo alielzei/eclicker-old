@@ -77,7 +77,8 @@ class HomePage extends StatelessWidget {
     @required Function getRooms, 
     @required List<Room> rooms,
     @required Widget button,
-    @required Widget destination
+    @required Widget destination,
+    @required String noRoomsText
   }){
     if(rooms == null){
       // this may throw error
@@ -89,10 +90,15 @@ class HomePage extends StatelessWidget {
 
     return RefreshIndicator(
         child: ListView(
-          children: [
+          children: 
+          rooms.length > 0 ? [
             ...rooms.map(
               (room) => _buildRoomTile(context, room: room, destination: destination)).toList(),
             button,
+          ]
+          : [
+            _emptyAlert(context, noRoomsText),
+            button
           ]
         ),
         onRefresh: () => getRooms(),
@@ -134,7 +140,8 @@ class HomePage extends StatelessWidget {
         getRooms: homeService.getHostedRooms, 
         rooms: homeService.hostedRooms,
         button: child,
-        destination: HostedRoomPage()
+        destination: HostedRoomPage(),
+        noRoomsText: 'You do not have any hosted rooms'
       ),
       child: _createButton(context),
     ); 
@@ -155,10 +162,18 @@ class HomePage extends StatelessWidget {
           getRooms: homeService.getJoinedRooms, 
           rooms: homeService.joinedRooms,
           button: child,
-          destination: JoinedRoomPage()
+          destination: JoinedRoomPage(),
+          noRoomsText: 'You do not have any joined rooms'
         ),
         child: _joinButton(context),
     ); 
+  }
+
+  Widget _emptyAlert(BuildContext context, String text){
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Center(child: Text(text)),
+    );
   }
 
 }

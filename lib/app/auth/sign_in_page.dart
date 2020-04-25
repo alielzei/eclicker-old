@@ -3,11 +3,21 @@ import 'package:provider/provider.dart';
 
 import 'package:eclicker/services/auth_service.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+
+  bool _loading = false;
+  void _setLoading(bool b) => setState(() => _loading = b);
+
   Future<void> _signIn(context, {
     @required String email, 
     @required String password
   }) async {
+    _setLoading(true);
     try {
       final auth = Provider.of<AuthService>(context, listen: false);
       final user = await auth.signIn(email: email, password: password);
@@ -15,6 +25,7 @@ class SignInPage extends StatelessWidget {
     } catch (e) {
       print(e);
     }
+    _setLoading(false);
   }
 
   @override
@@ -23,7 +34,9 @@ class SignInPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sign in'),
       ),
-      body: Column(
+      body: _loading
+      ? Center(child: CircularProgressIndicator())
+      : Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -45,5 +58,4 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
-  
 }

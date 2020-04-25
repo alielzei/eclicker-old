@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:http/http.dart' as http;
+
 @immutable
 class User {
   const User({@required this.uid});
@@ -10,6 +12,8 @@ class User {
 class AuthService {
   final _auth = FirebaseAuth.instance;
 
+  String uid;
+  
   User _userFromFirebase(FirebaseUser user) {
     return user == null ? null : User(uid: user.uid);
   }
@@ -30,4 +34,5 @@ class AuthService {
   Future<void> signOut() async {
     return await _auth.signOut();
   }
+
 }

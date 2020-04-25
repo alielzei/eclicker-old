@@ -27,15 +27,18 @@ class Session {
 class HistoryElement {
   const HistoryElement({
     @required this.id,
-    @required this.title
+    @required this.title,
+    @required this.time
   });
   final String id;
   final String title;
+  final String time;
 
   factory HistoryElement.fromJson(Map<String, dynamic> json){
     return HistoryElement(
       id: json['id'],
-      title: json['title']
+      title: json['title'],
+      time: json['time']
     );
   }
 }
@@ -159,4 +162,23 @@ class RoomService extends ChangeNotifier{
       throw Exception('HTTP ERROR: ${response.body}');
   }
 
+  Future<void> deleteHistory({
+    @required HistoryElement historyElement
+  }) async {
+    Uri uri = Uri.https(
+      'us-central1-eclicker-1.cloudfunctions.net',
+      '/deleteHistory'
+    );
+    final response = await http.post(uri,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'session': historyElement.id,
+      })
+    );
+
+    if(response.statusCode != 200)
+      throw Exception('HTTP ERROR: ${response.body}');
+  }
 }

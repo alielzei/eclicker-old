@@ -15,6 +15,7 @@ class Eclicker extends StatelessWidget {
         builder: (context, userSnapshot){
           return MaterialApp(
             theme: ThemeData(
+              primarySwatch: Colors.deepPurple,
               inputDecorationTheme: InputDecorationTheme(
                 border: InputBorder.none,
                 filled: true,

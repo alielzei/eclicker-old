@@ -1,4 +1,5 @@
 import 'package:eclicker/services/auth_service.dart';
+import 'package:eclicker/services/home_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,18 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: <Widget>[
-          DrawerHeader(child: Text('John Doe')),
+          DrawerHeader(
+            child: Center(
+              child: Consumer<HomeService>(
+              builder: (context, homeService, child){
+                if(homeService.userName != null)
+                  return Text(homeService.userName, style: TextStyle(fontSize: 20),);
+                
+                homeService.getUserName();
+                return Center(child: CircularProgressIndicator());
+              }
+            ))
+          ),
           ListTile(
             title: FlatButton(
               child: Text(

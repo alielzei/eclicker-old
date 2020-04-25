@@ -47,9 +47,13 @@ class JoinedRoomPage extends StatelessWidget {
       builder: (context, roomService, child){
         if(roomService.activeSessions != null)
           return RefreshIndicator(
-              child: ListView(children: roomService.activeSessions.map(
-                (session) => _buildSessionTile(context, session)).toList()),
-              onRefresh: () => roomService.getActiveSession(),
+            child: ListView(
+              children: roomService.activeSessions.length > 0
+              ? roomService.activeSessions.map(
+                (session) => _buildSessionTile(context, session)).toList()
+              : _emptyAlert(context, 'There are no active sessions right now'),
+            ),
+            onRefresh: () => roomService.getActiveSession(),
           );
 
         roomService.getActiveSession();
@@ -58,6 +62,15 @@ class JoinedRoomPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<Widget> _emptyAlert(BuildContext context, String text){
+    return [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Center(child: Text(text)),
+      )
+    ];
   }
   
 }

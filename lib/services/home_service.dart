@@ -24,7 +24,8 @@ class Room {
 class HomeService extends ChangeNotifier{
   HomeService({@required this.user}) : assert(user != null);
   final User user; 
-   
+  String userName;
+  
   List<Room> hostedRooms;
   List<Room> joinedRooms;
 
@@ -107,6 +108,24 @@ class HomeService extends ChangeNotifier{
       throw Exception('${response.body}');
 
     return Room.fromJson(json.decode(response.body));
+  }
+
+  Future<String> getUserName() async {
+    print(user.uid);
+
+    Uri uri = Uri.https(
+      'us-central1-eclicker-1.cloudfunctions.net',
+      '/getUser', {
+        'user': user.uid
+      }
+    );
+    final response = await http.get(uri);
+
+    if(response.statusCode != 200)
+      throw Exception('${response.body}');
+
+    userName = json.decode(response.body)['name'];
+    notifyListeners();
   }
 
 }

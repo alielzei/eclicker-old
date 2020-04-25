@@ -10,6 +10,27 @@ class CreateSessionForm extends StatefulWidget {
 }
 
 class _CreateSessionFormState extends State<CreateSessionForm> {
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: SessionDetailsForm(submitSession: widget.submitSession,)
+    );
+  }
+
+}
+
+class SessionDetailsForm extends StatefulWidget {
+  const SessionDetailsForm ({ Key key, this.submitSession }): super(key: key);
+  final Function submitSession;
+
+  @override
+  SessionDetailsFormState createState() => SessionDetailsFormState();
+}
+
+class SessionDetailsFormState extends State<SessionDetailsForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _titleController = TextEditingController();
@@ -22,24 +43,21 @@ class _CreateSessionFormState extends State<CreateSessionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: _loading
+    return _loading
       ? Center(child: CircularProgressIndicator())
       : Form(
-        key: _formKey,
-        child: ListView(
-          children: <Widget>[
-            _titleField(),
-            ...List<Widget>.generate(
-              _optionsTextControllers.length, 
-              (idx) => _optionField(idx)
-            ),
-            _addOptionButton(),
-            _submitButton()
-          ],
-        )
-      ),
+      key: _formKey,
+      child: ListView(
+        children: <Widget>[
+          _titleField(),
+          ...List<Widget>.generate(
+            _optionsTextControllers.length, 
+            (idx) => _optionField(idx)
+          ),
+          _addOptionButton(),
+          _submitButton()
+        ],
+      )
     );
   }
 
@@ -90,6 +108,13 @@ class _CreateSessionFormState extends State<CreateSessionForm> {
     return Center(
       child: RaisedButton(child: Text('Submit'), onPressed: (){
         if (_formKey.currentState.validate()) {
+          if(_optionsTextControllers.length < 2){
+            Scaffold
+              .of(context)
+              .showSnackBar(SnackBar(content: Text('You need to enter at least 2 options')));
+            return;
+          }
+
           _setLoading(true);
           widget.submitSession(
             title: _titleController.text,
@@ -109,4 +134,5 @@ class _CreateSessionFormState extends State<CreateSessionForm> {
       }),
     );
   }
+
 }
