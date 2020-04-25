@@ -1,3 +1,4 @@
+import 'package:eclicker/services/home_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,6 +53,10 @@ class _JoinedSessionPageState extends State<JoinedSessionPage> {
         if(session == null){
           sessionService.getSession();
           return Center(child: CircularProgressIndicator());
+        }
+
+        if(!session.free){
+          return Center(child: Text('You already answered'));
         }
 
         return ListView(

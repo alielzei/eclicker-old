@@ -10,15 +10,20 @@ class SessionDetails{
   SessionDetails({
     @required this.title,
     @required this.options,
+    @required this.free
   });
 
   final String title;
   final List<String> options;
+  final bool free;
 
   factory SessionDetails.fromJSON(json){
+    var options = json['options'];
+    if(options != null) options = List<String>.from(json['options']);
     return SessionDetails(
       title: json['title'],
-      options: List<String>.from(json['options'])
+      options: options,
+      free: json['free']
     );
   }
 
@@ -50,11 +55,15 @@ class SessionResults{
 
 class SessionService extends ChangeNotifier{
   SessionService({
-    @required this.sessionId
+    @required this.sessionId,
+    this.userId
   });
 
+  bool _mounted = true;
+
   final String sessionId;
-  
+  final String userId;
+
   SessionDetails sessionDetails;
   bool loading = false;
 
@@ -63,10 +72,17 @@ class SessionService extends ChangeNotifier{
     notifyListeners();
   }
 
+  @override
+  void dispose(){
+    _mounted = false;
+    super.dispose();
+  }
+
   Future<void> getSession() async {
     Uri uri = Uri.https(
       'us-central1-eclicker-1.cloudfunctions.net',
       '/getSession', {
+      'user': userId,
       'session': sessionId
     });
     final response = await http.get(uri);
@@ -78,11 +94,11 @@ class SessionService extends ChangeNotifier{
       json.decode(response.body)
     );
 
-    notifyListeners();
+    if(_mounted) notifyListeners();
   }
 
   Future<void> submitAnswer({
-    @required option
+    @required int option
   }) async {
     Uri uri = Uri.https(
       'us-central1-eclicker-1.cloudfunctions.net',
@@ -94,6 +110,7 @@ class SessionService extends ChangeNotifier{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
+        'user': userId,
         'session': sessionId,
         'option': option,
       })
@@ -128,7 +145,6 @@ class SessionService extends ChangeNotifier{
       })
     );
     setLoading(false);
-    print(response.body);
     if(response.statusCode != 200)
       throw Exception('HTTP ERROR: ${response.body}');
     
@@ -150,8 +166,6 @@ class SessionService extends ChangeNotifier{
       })
     );
     setLoading(false);
-    print(response.body);
-    
     if(response.statusCode != 200)
       throw Exception('HTTP ERROR: ${response.statusCode}, ${response.body}');
   

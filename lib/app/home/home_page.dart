@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildRoomTile(BuildContext context, {
     Room room, 
-    Widget destination
+    Widget destination,
   }){
     return Card(
       child: ListTile(

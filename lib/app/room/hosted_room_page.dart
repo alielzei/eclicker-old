@@ -1,6 +1,7 @@
 import 'package:eclicker/app/forms/create_session_form.dart';
 import 'package:eclicker/app/session/results_history_page.dart';
 import 'package:eclicker/app/session/hosted_session_page.dart';
+import 'package:eclicker/services/home_service.dart';
 import 'package:eclicker/services/session_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,16 @@ import 'package:provider/provider.dart';
 
 import 'package:eclicker/services/room_service.dart';
 
-class HostedRoomPage extends StatelessWidget {
+class HostedRoomPage extends StatefulWidget {
+
+  @override
+  _HostedRoomPageState createState() => _HostedRoomPageState();
+}
+
+class _HostedRoomPageState extends State<HostedRoomPage> {
+
+  bool _loading = false;
+  void _setLoading(bool b) => setState(() => _loading = b);
 
   void _goToSession(BuildContext context, Session session){
     Navigator.push(context, MaterialPageRoute(
@@ -40,7 +50,16 @@ class HostedRoomPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: <Widget>[
-            FlatButton(child: Text('Create Room'), onPressed: (){},)
+            IconButton(icon: Icon(Icons.delete), onPressed: (){
+              _setLoading(true);
+              roomService.deleteRoom().then((v){
+                Navigator.pop(context);
+              })  
+              .catchError((e){
+                _setLoading(false);
+                print('error deleting room $e');
+              });
+            })
           ],
           bottom: TabBar(tabs: [
             Tab(child: Text('Sessions')),
@@ -48,7 +67,9 @@ class HostedRoomPage extends StatelessWidget {
             Tab(child: Text('History')),
           ]),
         ),
-        body: TabBarView(
+        body: _loading 
+        ? Center(child: CircularProgressIndicator())
+        : TabBarView(
           children: <Widget>[
             _buildSessions(context),
             _buildParticipants(context),
@@ -85,7 +106,7 @@ class HostedRoomPage extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildParticipantTile(BuildContext context, String participant){
     return Card(
       child: ListTile(
@@ -97,7 +118,7 @@ class HostedRoomPage extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildHistoryTile(BuildContext context, HistoryElement session){
     return Card(
       child: ListTile(
@@ -198,7 +219,8 @@ class HostedRoomPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: Center(child: Text(text)),
-      )
+      ),
+      CopySessionToken()
     ];
   }
 }

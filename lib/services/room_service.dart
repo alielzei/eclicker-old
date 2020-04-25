@@ -88,6 +88,7 @@ class RoomService extends ChangeNotifier{
     Uri uri = Uri.https(
       'us-central1-eclicker-1.cloudfunctions.net',
       '/getActiveSessions', {
+      'user': user.uid,
       'room': room.id
     });
     final response = await http.get(uri);
@@ -175,6 +176,24 @@ class RoomService extends ChangeNotifier{
       },
       body: jsonEncode({
         'session': historyElement.id,
+      })
+    );
+
+    if(response.statusCode != 200)
+      throw Exception('HTTP ERROR: ${response.body}');
+  }
+
+  Future<void> deleteRoom() async {
+    Uri uri = Uri.https(
+      'us-central1-eclicker-1.cloudfunctions.net',
+      '/deleteRoom'
+    );
+    final response = await http.post(uri,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'room': room.id,
       })
     );
 

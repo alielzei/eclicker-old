@@ -1,3 +1,4 @@
+import 'package:eclicker/services/home_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,10 +21,12 @@ class JoinedRoomPage extends StatelessWidget {
   }
 
   void _goToSession(BuildContext context, Session session){
+    final homeService = Provider.of<HomeService>(context, listen: false);
+
     Navigator.push(context, MaterialPageRoute(
       fullscreenDialog: true,
       builder: (_) => ChangeNotifierProvider<SessionService>(
-        create: (_) => SessionService(sessionId: session.id),
+        create: (_) => SessionService(userId: homeService.user.uid, sessionId: session.id),
         child: JoinedSessionPage(),
       )
     ));
