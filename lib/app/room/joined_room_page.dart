@@ -12,6 +12,7 @@ class JoinedRoomPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: Text('Room'),
           actions: <Widget>[
             FlatButton(child: Text('Create Room'), onPressed: (){},)
           ],

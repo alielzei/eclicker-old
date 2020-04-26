@@ -49,6 +49,7 @@ class _HostedRoomPageState extends State<HostedRoomPage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          title: Text('Room'),
           actions: <Widget>[
             IconButton(icon: Icon(Icons.delete), onPressed: (){
               _setLoading(true);

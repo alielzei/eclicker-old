@@ -3,9 +3,9 @@ import 'package:eclicker/app/auth/auth_widget_builder.dart';
 import 'package:eclicker/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'color.dart';
 
 void main() => runApp(Eclicker());
-
 class Eclicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,8 +14,9 @@ class Eclicker extends StatelessWidget {
       child: AuthWidgetBuilder(
         builder: (context, userSnapshot){
           return MaterialApp(
+            //debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.deepPurple,
+              primarySwatch: colorCustom,
               inputDecorationTheme: InputDecorationTheme(
                 border: InputBorder.none,
                 filled: true,

@@ -23,16 +23,9 @@ class MainDrawer extends StatelessWidget {
           DrawerHeader(
             child: Column(
               children: <Widget>[
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/logo.png'),
-                        fit: BoxFit.contain,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: _buildUSerInitials(context),
                 ),
                 _buildUserName(context),
               ],
@@ -63,7 +56,7 @@ class MainDrawer extends StatelessWidget {
 
   Widget _buildUserName(BuildContext context){
     return Consumer<HomeService>(
-      builder: (context, homeService, child){
+      builder: (context, homeService, child){       
         if(homeService.userName != null)
           return Text(homeService.userName, style: TextStyle(fontSize: 20),);
         
@@ -74,3 +67,30 @@ class MainDrawer extends StatelessWidget {
   }
 
 }
+  Widget _buildUSerInitials(BuildContext context){
+    return Consumer<HomeService>(
+      builder: (context, homeService, child){
+
+        if(homeService.userName != null){
+            var x =homeService.userName.split(" ");
+            var initials = x[0][0] + x[1][0];
+          return  Container(
+              height: 85.0,
+              width: 85.0,
+              color: Colors.transparent,
+              child: Container(
+              decoration: BoxDecoration(
+                color: Colors.deepPurple[200],
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: new Center(
+                child: new Text(initials, 
+                style: TextStyle(color: Colors.white, fontSize: 30),
+                textAlign: TextAlign.center,),
+              )),
+            );
+        }
+        homeService.getUserName();
+        return Center(child: CircularProgressIndicator());
+      }
+    );
+  }

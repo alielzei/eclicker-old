@@ -40,36 +40,46 @@ class _SignInPageState extends State<SignInPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/logo_with_text.png'),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              height : 300,
+              width: 300,
+            ),
           RaisedButton(
-            child: Text('Host'),
+            child: Text('Host',style: TextStyle(fontSize: 20)),
             onPressed: () => _signIn(context,
               email: 'bdeir@eclicker.com',
               password: '123456'
             ),
           ),
           RaisedButton(
-            child: Text('Ali'),
+            child: Text('Ali',style: TextStyle(fontSize: 20)),
             onPressed: () => _signIn(context,
               email: 'ali@eclicker.com',
               password: '123456'
             ),
           ),
           RaisedButton(
-            child: Text('Nariman'),
+            child: Text('Nariman',style: TextStyle(fontSize: 20)),
             onPressed: () => _signIn(context,
               email: 'nariman@eclicker.com',
               password: '123456'
             ),
           ),
           RaisedButton(
-            child: Text('Nadine'),
+            child: Text('Nadine',style: TextStyle(fontSize: 20)),
             onPressed: () => _signIn(context,
               email: 'nadine@eclicker.com',
               password: '123456'
             ),
           ),
           RaisedButton(
-            child: Text('Hussein'),
+            child: Text('Hussein',style: TextStyle(fontSize: 20)),
             onPressed: () => _signIn(context,
               email: 'hussein@eclicker.com',
               password: '123456'
