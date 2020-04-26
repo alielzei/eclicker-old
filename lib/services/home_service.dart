@@ -29,6 +29,14 @@ class HomeService extends ChangeNotifier{
   List<Room> hostedRooms;
   List<Room> joinedRooms;
 
+  bool _mounted = true;
+
+  @override
+  void dispose(){
+    _mounted = false;
+    super.dispose();
+  }
+
   Future<List<Room>> getRooms({
     @required String functionName,
   }) async {
@@ -53,12 +61,12 @@ class HomeService extends ChangeNotifier{
   Future<void> getHostedRooms() async {
     // handle error here
     hostedRooms = await getRooms(functionName: 'getHostedRooms');
-    notifyListeners();
+    if(_mounted) notifyListeners();
   }
 
   Future<void> getJoinedRooms() async {
     joinedRooms = await getRooms(functionName: 'getJoinedRooms');
-    notifyListeners();
+    if(_mounted) notifyListeners();
   }
 
   Future<Room> createRoom({
@@ -123,7 +131,7 @@ class HomeService extends ChangeNotifier{
       throw Exception('${response.body}');
 
     userName = json.decode(response.body)['name'];
-    notifyListeners();
+    if(_mounted) notifyListeners();
   }
 
 }

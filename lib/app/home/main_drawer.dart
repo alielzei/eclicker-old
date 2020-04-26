@@ -21,15 +21,7 @@ class MainDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           DrawerHeader(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: _buildUSerInitials(context),
-                ),
-                _buildUserName(context),
-              ],
-            )
+            child: _buildUserInfo(context)
           ),
           ListTile(
             title: FlatButton(
@@ -54,43 +46,45 @@ class MainDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildUserName(BuildContext context){
+  Widget _buildUserInfo(BuildContext context){
     return Consumer<HomeService>(
       builder: (context, homeService, child){       
-        if(homeService.userName != null)
-          return Text(homeService.userName, style: TextStyle(fontSize: 20),);
-        
+        if(homeService.userName != null){
+          
+          return Column(
+            children: <Widget>[
+              _buildUSerInitials(homeService.userName),
+              Text(homeService.userName, style: TextStyle(fontSize: 20))
+            ],
+          );
+        }
+
         homeService.getUserName();
         return Center(child: CircularProgressIndicator());
       }
+    );
+  }
+  
+  Widget _buildUSerInitials(String userName){
+    var x = userName.split(" ");
+    var initials = x[0][0] + x[1][0];
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        height: 85.0,
+        width: 85.0,
+        color: Colors.transparent,
+        child: Container(
+        decoration: BoxDecoration(
+          color: Colors.deepPurple[200],
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        child: new Center(
+          child: new Text(initials, 
+          style: TextStyle(color: Colors.white, fontSize: 30),
+          textAlign: TextAlign.center,),
+        )),
+      ),
     );
   }
 
 }
-  Widget _buildUSerInitials(BuildContext context){
-    return Consumer<HomeService>(
-      builder: (context, homeService, child){
-
-        if(homeService.userName != null){
-            var x =homeService.userName.split(" ");
-            var initials = x[0][0] + x[1][0];
-          return  Container(
-              height: 85.0,
-              width: 85.0,
-              color: Colors.transparent,
-              child: Container(
-              decoration: BoxDecoration(
-                color: Colors.deepPurple[200],
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              child: new Center(
-                child: new Text(initials, 
-                style: TextStyle(color: Colors.white, fontSize: 30),
-                textAlign: TextAlign.center,),
-              )),
-            );
-        }
-        homeService.getUserName();
-        return Center(child: CircularProgressIndicator());
-      }
-    );
-  }
