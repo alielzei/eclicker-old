@@ -93,7 +93,7 @@ class SessionService extends ChangeNotifier{
     sessionDetails = SessionDetails.fromJSON(
       json.decode(response.body)
     );
-
+    
     if(_mounted) notifyListeners();
   }
 

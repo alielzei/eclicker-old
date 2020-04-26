@@ -41,21 +41,21 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             title: FlatButton(
               child: Text(
-                'Sign out',
-              ),
-              onPressed: () => _signOut(context),
-            )
-          ),
-          ListTile(
-            title: FlatButton(
-              child: Text(
                 'Email Service',
               ),
               onPressed: () => Navigator.push(context, MaterialPageRoute(
                 builder: (_) =>EmailServicePage()
               )),
             )
-          )
+          ),
+          ListTile(
+            title: FlatButton(
+              child: Text(
+                'Sign out',
+              ),
+              onPressed: () => _signOut(context),
+            )
+          ),
         ],
       ),
     );
