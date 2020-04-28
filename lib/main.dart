@@ -3,7 +3,6 @@ import 'package:eclicker/app/auth/auth_widget_builder.dart';
 import 'package:eclicker/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'color.dart';
 
 void main() => runApp(Eclicker());
 class Eclicker extends StatelessWidget {
@@ -16,7 +15,7 @@ class Eclicker extends StatelessWidget {
           return MaterialApp(
             //debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: colorCustom,
+              primarySwatch: Colors.deepPurple,
               inputDecorationTheme: InputDecorationTheme(
                 border: InputBorder.none,
                 filled: true,
