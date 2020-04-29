@@ -10,6 +10,8 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
 
+  final _formKey = GlobalKey<FormState>();
+
   final emailController = TextEditingController();
   final passwController = TextEditingController();
 
@@ -40,15 +42,6 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign in'),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Sign up', style: TextStyle(
-              color: Colors.white
-            ),),
-            onPressed: (){},
-          )
-        ],
       ),
       body: _loading
       ? Center(child: CircularProgressIndicator())
@@ -75,9 +68,9 @@ class _SignInPageState extends State<SignInPage> {
   Widget _buildBody(BuildContext context){
     return _newView ? _newBody(context) : _oldBody(context);
   }
+
   Widget _oldBody(BuildContext context){
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
         children: <Widget>[
           _buildLogo(),
           RaisedButton(
@@ -120,11 +113,9 @@ class _SignInPageState extends State<SignInPage> {
   }
   
   Widget _newBody(BuildContext context){
-    final _formKey = GlobalKey<FormState>();
-
     return Form(
       key: _formKey,
-      child: Column(
+      child: ListView(
         children: <Widget>[
           _buildLogo(),
           _emailField(),
@@ -166,10 +157,13 @@ class _SignInPageState extends State<SignInPage> {
           color: Colors.white,
         ),
       ),
-      onPressed: () => _signIn(context, 
-        email: emailController.text,
-        password: passwController.text
-      ),
+      onPressed: () {
+        if(_formKey.currentState.validate())
+          _signIn(context, 
+            email: emailController.text,
+            password: passwController.text
+          );
+      }
     );
   }
   
