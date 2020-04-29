@@ -24,7 +24,7 @@ class ResultsChart extends StatelessWidget {
       (i) => OptionSubmits(
         session.options[i], 
         session.results[i], 
-        Colors.red
+        Colors.blue[200]
       )
     ).toList();
 
