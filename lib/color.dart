@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 Map<int, Color> color =
 {
-50:Color.fromRGBO(136,14,79, .1),
-100:Color.fromRGBO(136,14,79, .2),
-200:Color.fromRGBO(136,14,79, .3),
-300:Color.fromRGBO(136,14,79, .4),
-400:Color.fromRGBO(136,14,79, .5),
-500:Color.fromRGBO(136,14,79, .6),
-600:Color.fromRGBO(136,14,79, .7),
-700:Color.fromRGBO(136,14,79, .8),
-800:Color.fromRGBO(136,14,79, .9),
-900:Color.fromRGBO(136,14,79, 1),
+50:Colors.deepPurple[50],
+100:Colors.deepPurple[100],
+200:Colors.deepPurple[200],
+300:Colors.deepPurple[300],
+400:Colors.deepPurple[400],
+500:Colors.deepPurple[500],
+600:Colors.deepPurple[600],
+700:Colors.deepPurple[700],
+800:Colors.deepPurple[800],
+900:Colors.deepPurple[900],
 };
 MaterialColor colorCustom = MaterialColor(0xFF9575CD, color);
