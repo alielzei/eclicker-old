@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:eclicker/services/auth_service.dart';
 
 class SignInPage extends StatefulWidget {
+
+  SignInPage({ this.toggleView });
+  final Function toggleView;
+
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -16,8 +20,8 @@ class _SignInPageState extends State<SignInPage> {
   final passwController = TextEditingController();
 
   String _error = '';
-  bool _newView = true;
 
+  bool _newView = true;
   bool _loading = false;
   void _setLoading(bool b) => setState(() => _loading = b);
 
@@ -30,6 +34,7 @@ class _SignInPageState extends State<SignInPage> {
       final auth = Provider.of<AuthService>(context, listen: false);
       await auth.signIn(email: email, password: password);
     } catch (e) {
+      print(e.toString());
       setState(() {
         _error = 'Could not sign in with those credentials';
       });
@@ -44,6 +49,18 @@ class _SignInPageState extends State<SignInPage> {
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         title: Text('Sign in'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: (){
+              widget.toggleView();
+            },
+            child: Text('Sign Up',
+              style: TextStyle(
+                color: Colors.white
+              )
+            ),
+          )
+        ],
       ),
       body: _loading
       ? Center(child: CircularProgressIndicator())
@@ -53,7 +70,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildLogo(){
     return GestureDetector(
-      onTap: () => setState(() => _newView = !_newView),
+      onLongPress: () => setState(() => _newView = !_newView),
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -124,6 +141,7 @@ class _SignInPageState extends State<SignInPage> {
           SizedBox(height: 12.0),
           _passwordField(),
           _signInButton(),
+          SizedBox(height: 20.0),
           _errorText()
         ],
       ),
@@ -153,12 +171,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _signInButton(){
     return RaisedButton(
-      child: Text(
-        'Sign in',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+      child: Text('Sign In'),
       onPressed: () {
         if(_formKey.currentState.validate())
           _signIn(context, 
@@ -170,11 +183,13 @@ class _SignInPageState extends State<SignInPage> {
   }
   
   Widget _errorText(){
-    return Text(
-      _error,
-      style: TextStyle(
-        color: Colors.red,
-        fontSize: 14.0,
+    return Center(
+      child: Text(
+        _error,
+        style: TextStyle(
+          color: Colors.red,
+          fontSize: 14.0,
+        ),
       ),
     );
   }

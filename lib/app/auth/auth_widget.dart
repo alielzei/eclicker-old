@@ -1,4 +1,4 @@
-import 'package:eclicker/app/auth/sign_in_page.dart';
+import 'package:eclicker/app/auth/authenticate.dart';
 import 'package:eclicker/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class AuthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(userSnapshot.connectionState);
     if(userSnapshot.connectionState == ConnectionState.active){
-      return userSnapshot.hasData ? HomePage() : SignInPage();
+      return userSnapshot.hasData ? HomePage() : Authenticate();
     }
     return Scaffold(
       body: Center(
