@@ -196,7 +196,7 @@ class _HostedRoomPageState extends State<HostedRoomPage> {
                   ...roomService.sessions.map(
                     (session) => _buildSessionTile(context, session)).toList(),
                   CopySessionToken()
-                ] : _emptyAlert(context, 'You do not have any sessions yet')
+                ] : _emptyAlert(context, 'You do not have any polls yet')
             ),
             onRefresh: () => roomService.getSessions(),
         );

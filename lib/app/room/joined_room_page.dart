@@ -55,7 +55,7 @@ class JoinedRoomPage extends StatelessWidget {
               children: roomService.activeSessions.length > 0
               ? roomService.activeSessions.map(
                 (session) => _buildSessionTile(context, session)).toList()
-              : _emptyAlert(context, 'There are no active sessions right now'),
+              : _emptyAlert(context, 'There are no active polls right now'),
             ),
             onRefresh: () => roomService.getActiveSession(),
           );

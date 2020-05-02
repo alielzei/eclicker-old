@@ -16,7 +16,7 @@ class _EmailServicePage extends State<EmailServicePage> {
     slides.add(
       new Slide(
         title: "Email Service",
-        description: "You can  create a Session without using your phone thanks to our Email Service !",
+        description: "You can  create a poll without using your phone thanks to our Email Service !",
         styleDescription:
             TextStyle(color: Colors.white, fontSize: 20.0),
         pathImage: "assets/email.png",
@@ -26,7 +26,7 @@ class _EmailServicePage extends State<EmailServicePage> {
     slides.add(
       new Slide(
         title: "Email Service",
-        description: """You just put the session information in a txt file using the following format \n\ntitle: Title
+        description: """You just put the poll information in a txt file using the following format \n\ntitle: Title
         options: option1,option2,option3""",
                 styleDescription:
             TextStyle(color: Colors.white, fontSize: 20.0),

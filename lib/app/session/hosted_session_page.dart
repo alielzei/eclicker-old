@@ -37,7 +37,7 @@ class HostedSessionPage extends StatelessWidget {
         children: <Widget>[
           _sessionDetails(context, session),
           RaisedButton(
-            child: Text('Start Session'),
+            child: Text('Start Poll'),
             onPressed: (){
               sessionService
               .activateSession()
@@ -47,7 +47,7 @@ class HostedSessionPage extends StatelessWidget {
             }
           ),
           RaisedButton(
-            child: Text('Delete Session'),
+            child: Text('Delete Poll'),
             color: Colors.red,
             onPressed: (){ 
               sessionService
@@ -73,7 +73,7 @@ class HostedSessionPage extends StatelessWidget {
         ResultsChart(session: session),
         RaisedButton(
           color: Colors.red,
-          child: Text('Stop Session'),
+          child: Text('Stop Poll'),
           onPressed: () => sessionService.deactivateSession(),
         )
       ],
